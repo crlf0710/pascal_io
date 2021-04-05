@@ -1,0 +1,8 @@
+[package]
+name = "pascal_io"
+version = "0.1.0"
+authors = ["CrLF0710 <crlf0710@gmail.com>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+
+[dependencies]
