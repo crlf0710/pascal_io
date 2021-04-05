@@ -214,10 +214,10 @@ pub trait PascalFile {
 pub trait FromBlob {
     fn from_blob(data: &[u8]) -> Self;
 }
-pub trait AsBlob {
+pub trait ToBlob {
     type BlobType: core::borrow::Borrow<[u8]>;
 
-    fn as_blob(&self) -> Self::BlobType;
+    fn to_blob(&self) -> Self::BlobType;
 }
 
 pub fn reset<F: PascalFile + fmt::Debug, P: Into<String> + fmt::Debug>(
@@ -524,12 +524,12 @@ pub fn write_ln_noargs<F: PascalFile>(file: &mut F) {
     writeln!(write_target).unwrap();
 }
 
-pub fn write_binary<F: PascalFile, T: AsBlob>(file: &mut F, val: T) {
+pub fn write_binary<F: PascalFile, T: ToBlob>(file: &mut F, val: T) {
     use core::borrow::Borrow;
     let write_target = file
         .file_state_mut()
         .discard_buffer_variable_value_and_get_write_target();
-    let blob = val.as_blob();
+    let blob = val.to_blob();
     write_target.write_all(blob.borrow()).unwrap();
 }
 
