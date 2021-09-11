@@ -594,3 +594,18 @@ pub fn erstat<F: PascalFile>(file: &mut F) -> usize {
 pub fn close<F: PascalFile>(file: &mut F) {
     *file.file_state_mut() = FileState::default();
 }
+
+impl FromBlob for u8 {
+    fn from_blob(data: &[u8]) -> Self {
+        assert!(data.len() == 1);
+        data[0]
+    }
+}
+
+impl ToBlob for u8 {
+    type BlobType = [u8; 1];
+
+    fn to_blob(&self) -> Self::BlobType {
+        [*self]
+    }
+}
